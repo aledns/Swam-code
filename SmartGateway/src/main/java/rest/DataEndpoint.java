@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import controller.ProducerController;
 import model.Sensor;
 import model.SmartController;
+import model.SmartGatewayConfig;
 
 @Path("/data")
 public class DataEndpoint {
@@ -27,7 +28,7 @@ public class DataEndpoint {
 			//notify user
 		} else {
 			try {
-				producerController.send(null, controller);
+				producerController.send(SmartGatewayConfig.HOSTNAME_GATEWAY, controller);
 			} catch (Exception e) {
 				
 			}
