@@ -3,6 +3,7 @@ package ingestion;
 import java.io.FileInputStream;
 import java.time.Duration;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -27,7 +28,7 @@ public class IngestionSystem {
 		Firestore db = getDb();
 		KafkaConsumer<String,String> consumer = getConsumer();
 
-		String patternString = "[a-zA-Z0-9]+@gmail.com";
+		String patternString = "[a-zA-Z0-9]+@gmail\\.com";
 		Pattern pattern = Pattern.compile(patternString);
 
 		consumer.subscribe(pattern);
