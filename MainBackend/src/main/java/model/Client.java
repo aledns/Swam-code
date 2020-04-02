@@ -3,9 +3,12 @@ package model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.FetchMode;
 
 import model.device.SmartEnvironment;
 /**
@@ -59,7 +62,7 @@ public class Client {
 		this.hostname = hostname;
 	}
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	public List<SmartEnvironment> getEnvironments() {
 		return environments;
 	}
