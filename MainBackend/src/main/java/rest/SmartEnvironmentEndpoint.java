@@ -1,6 +1,6 @@
 package rest;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -41,31 +41,33 @@ public class SmartEnvironmentEndpoint {
 	
 	@Path("/{name}")
 	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response addEnvironment(@HeaderParam("email") String email,
 			@QueryParam("type") String type, @PathParam("name") String name) {
 		try {
 			SmartEnvironment env = environmentController.createSmartEnvironment(EnvironmentTypes.valueOf(type), name);
 			clientController.addEnvironment(email, env);
 			logger.info("Added new environment");
-			return Response.status(Status.CREATED).entity(env).build();
+//			return Response.status(Status.CREATED).entity(env).build();
+			return Response.status(Status.CREATED).entity("Environment creato").build();
 		} catch (Exception e) {
 			logger.info(e.getMessage());
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Environment non creato").build();
 		}
 	}
 	
 	@Path("/{idenv}/{namecont}")
 	@PUT
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response addSmartController(@QueryParam("type") ControllerTypes type, @PathParam("idenv") Long id,
 			@PathParam("namecont") String name) {
 		try {
 			SmartController sc = smartControllerController.createSmartController(type, name);
 			environmentController.addSmartController(id, sc);
 			logger.info("added new smartcontroller into environment");
-			return Response.status(Status.CREATED).entity(sc).build();
+			return Response.status(Status.CREATED).entity("Smartcontroller creato").build();
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Smartcontroller non creato").build();
 		}
 	}
 	
@@ -74,7 +76,7 @@ public class SmartEnvironmentEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllController(@PathParam("idenv") Long id) {
 		try {
-			List<SmartController> controllers = environmentController.getAll(id);
+			Set<SmartController> controllers = environmentController.getAll(id);
 			logger.info("Retrived all smartcontroller within environment");
 			return Response.status(Status.FOUND).entity(controllers).build();
 		} catch (Exception e) {

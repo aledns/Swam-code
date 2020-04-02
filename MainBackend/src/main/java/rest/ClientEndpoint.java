@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 
 import controller.ClientController;
 import controller.SmartEnvironmentController;
+import model.Client;
 import model.device.SmartEnvironment;
 
 @Path("/client")
@@ -59,6 +60,7 @@ public class ClientEndpoint {
 		try {
 			List<SmartEnvironment> envs = clientController.getEnvironments(email);
 			logger.info("Obtained all environment");
+			logger.info("First name: "+envs.get(0).getName());
 			return Response.status(Status.ACCEPTED).entity(envs).build();
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
@@ -76,6 +78,15 @@ public class ClientEndpoint {
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
+	}
+	
+	@Path("/test")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response test() {
+		Client c = clientController.get("alednstest");
+		logger.info(c.getHostname());
+		return Response.status(200).entity("OK").build();
 	}
 
 	
