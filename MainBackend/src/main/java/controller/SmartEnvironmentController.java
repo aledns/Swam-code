@@ -1,7 +1,9 @@
 package controller;
 
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -37,7 +39,7 @@ public class SmartEnvironmentController {
 	public SmartEnvironment createSmartEnvironment(EnvironmentTypes type, String name) throws Exception {
 		SmartEnvironment env = factoryEnvironment.getSmartEnvironment(type, name);
 		Sensor s = sensorController.create(SensorTypes.DHT11);
-		List<Sensor> listSensor = new LinkedList<Sensor>();
+		Set<Sensor> listSensor = new LinkedHashSet<Sensor>();
 		listSensor.add(s);
 		env.setSensors(listSensor);
 		envDao.save(env);
@@ -55,7 +57,7 @@ public class SmartEnvironmentController {
 	public void addSmartController(Long id, SmartController controller) throws Exception {
 		SmartEnvironment env = envDao.get(id);
 		if (env.getSmartcontrollers()==null) {
-			List<SmartController> list = new LinkedList<SmartController> ();
+			Set<SmartController> list = new LinkedHashSet<SmartController> ();
 			list.add(controller);
 			env.setSmartcontrollers(list);
 			envDao.update(env);
@@ -74,7 +76,7 @@ public class SmartEnvironmentController {
 	}
 	
 	@Transactional
-	public List<SmartController> getAll(Long id) throws Exception {
+	public Set<SmartController> getAll(Long id) throws Exception {
 		SmartEnvironment env = envDao.get(id);
 		logger.info("Obtained list of all smartcontroller");
 		return env.getSmartcontrollers();
