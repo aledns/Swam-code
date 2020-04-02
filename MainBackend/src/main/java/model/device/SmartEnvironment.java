@@ -1,9 +1,11 @@
 package model.device;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,8 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 import model.device.smartenvironment.WemosEnv;
@@ -31,15 +33,15 @@ public abstract class SmartEnvironment {
 	private Long smartenvironmentid;
 	private String name;
 	private double frequency;
-	private List<SmartController> smartcontrollers;
-	private List<Sensor> sensors;
+	private Set<SmartController> smartcontrollers;
+	private Set<Sensor> sensors;
 	
 	public SmartEnvironment() {
 		
 	}
 
-	public SmartEnvironment(String name, double frequency, List<SmartController> smartcontrollers,
-			List<Sensor> sensors) {
+	public SmartEnvironment(String name, double frequency, Set<SmartController> smartcontrollers,
+			Set<Sensor> sensors) {
 		super();
 		this.name = name;
 		this.frequency = frequency;
@@ -75,21 +77,21 @@ public abstract class SmartEnvironment {
 		this.frequency = frequency;
 	}
 	
-	@OneToMany
-	public List<SmartController> getSmartcontrollers() {
+	@OneToMany(fetch = FetchType.EAGER)
+	public Set<SmartController> getSmartcontrollers() {
 		return smartcontrollers;
 	}
 
-	public void setSmartcontrollers(List<SmartController> smartcontrollers) {
+	public void setSmartcontrollers(Set<SmartController> smartcontrollers) {
 		this.smartcontrollers = smartcontrollers;
 	}
 	
-	@OneToMany
-	public List<Sensor> getSensors() {
+	@OneToMany(fetch = FetchType.EAGER)
+	public Set<Sensor> getSensors() {
 		return sensors;
 	}
 
-	public void setSensors(List<Sensor> sensors) {
+	public void setSensors(Set<Sensor> sensors) {
 		this.sensors = sensors;
 	}
 

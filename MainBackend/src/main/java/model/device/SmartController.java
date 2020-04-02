@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -71,7 +72,7 @@ public abstract class SmartController {
 		this.frequency = frequency;
 	}
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	public List<Sensor> getSensors() {
 		return sensors;
 	}
@@ -127,7 +128,6 @@ public abstract class SmartController {
 		return "SmartController [smartcontrollerid=" + smartcontrollerid + ", name=" + name + ", frequency=" + frequency
 				+ ", sensors=" + sensors + "]";
 	}
-	
 	
 
 }
