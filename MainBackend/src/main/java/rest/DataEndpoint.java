@@ -1,13 +1,8 @@
 package rest;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Map;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -22,15 +17,22 @@ import utils.FirestoreDb;
 @Path("/data")
 public class DataEndpoint {
 	
-//	@Inject
-//	private FirestoreDb firestore;
+//	private FirestoreDb firestore = new FirestoreDb();
+	@Inject
+	private FirestoreDb firestore;
 	
 	@Path("/{name}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDataPlant(@HeaderParam("hostname") String hostname, @PathParam("name") String name) {
-		
-		return Response.status(Status.OK).build();
+		try {
+			Map<String,Object> obj = firestore.getLastValue(hostname, name);
+			return Response.status(Status.OK).entity(obj).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
 
