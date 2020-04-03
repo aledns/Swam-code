@@ -17,7 +17,7 @@ import utils.FirestoreDb;
 @Path("/data")
 public class DataEndpoint {
 	
-//	private FirestoreDb firestore = new FirestoreDb();
+
 	@Inject
 	private FirestoreDb firestore;
 	
