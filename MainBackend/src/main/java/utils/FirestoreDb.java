@@ -66,20 +66,5 @@ public class FirestoreDb {
 		
 	}
 	
-	public static void listF() {
-		File f = new File(".src/main/resources/smartwateringplants-firebase-adminsdk-x2z1l-ad878bd177.json");
-//		File s = new File(getClass().getClassLoader().getResource("smartwateringplants-firebase-adminsdk-x2z1l-ad878bd177.json").getFile());
-		System.out.println("File exists?: "+f.exists());
-		
-		try (Stream<java.nio.file.Path> walk = Files.walk(Paths.get("."))) {
-			List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
-			
-			result.forEach(System.out::println);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 }
