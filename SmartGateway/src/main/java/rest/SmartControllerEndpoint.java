@@ -78,7 +78,7 @@ public class SmartControllerEndpoint {
 		}
 		
 		return null;
-		//add query param... or format string ADD_CONTROLLER
+		
 	}
 	
 	@Path("/hostname/{oldName}/{newName}")
@@ -106,7 +106,7 @@ CloseableHttpClient client = HttpClients.createDefault();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 		
-		builder = builder.setParameter("type", String.valueOf(value));
+		builder = builder.setParameter("cmd", String.valueOf(value));
 
 		HttpGet get = null;
 		
