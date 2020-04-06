@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -95,10 +96,33 @@ public class SmartControllerEndpoint {
 	@PUT
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response setFrequency(@PathParam("name") String name,
-			@PathParam("value") double value) {
+			@PathParam("value") int value) {
+CloseableHttpClient client = HttpClients.createDefault();
 		
+		URIBuilder builder = null;
+		try {
+			builder = new URIBuilder("http://"+name+":80/frequency");
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+		
+		builder = builder.setParameter("type", String.valueOf(value));
+
+		HttpGet get = null;
+		
+		try {
+			get = new HttpGet(builder.build());
+
+			CloseableHttpResponse response = client.execute(get);
+			if (response.getStatusLine().getStatusCode()==1) {
+				return Response.status(Status.ACCEPTED).build();
+			}
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
 		
 		return null;
+		
 	}
 	
 	//invocato da MainBackend. Invoca api rest esposte dalle board
